@@ -14,11 +14,11 @@
 # limitations under the License.
 #
 from lingua_franca.lang.format_common import convert_to_mixed_fraction
-from lingua_franca.lang.common_data_fr import _NUM_STRING_FR, \
-    _FRACTION_STRING_FR
+from lingua_franca.lang.common_data_gcf import _NUM_STRING_GCF, \
+    _FRACTION_STRING_GCF
 
 
-def nice_number_fr(number, speech=True, denominators=range(1, 21)):
+def nice_number_gcf(number, speech=True, denominators=range(1, 21)):
     """ French helper for nice_number
     This function formats a float to human understandable functions. Like
     4.5 becomes "4 et demi" for speech and "4 1/2" for text
@@ -56,7 +56,7 @@ def nice_number_fr(number, speech=True, denominators=range(1, 21)):
             strNumber = str(whole)
             strNumber = strNumber.replace(".", ",")
             return strNumber
-        den_str = _FRACTION_STRING_FR[den]
+        den_str = _FRACTION_STRING_GCF[den]
         # if it is not an integer
         if whole == 0:
             # if there is no whole number
@@ -85,7 +85,7 @@ def nice_number_fr(number, speech=True, denominators=range(1, 21)):
     return strNumber
 
 
-def pronounce_number_fr(number, places=2):
+def pronounce_number_gcf(number, places=2):
     """
     Convert a number to it's spoken equivalent
     For example, '5.2' would return 'cinq virgule deux'
@@ -101,7 +101,7 @@ def pronounce_number_fr(number, places=2):
 
     result = ""
     if number < 0:
-        result = "moins "
+        result = "mwen "
     number = abs(number)
 
     if number > 16:
@@ -109,9 +109,9 @@ def pronounce_number_fr(number, places=2):
         ones = int(number-tens)
         if ones != 0:
             if tens > 10 and tens <= 60 and int(number-tens) == 1:
-                result += _NUM_STRING_FR[tens] + "-et-" + _NUM_STRING_FR[ones]
+                result += _NUM_STRING_GCF[tens] + "-et-" + _NUM_STRING_GCF[ones]
             elif number == 71:
-                result += "soixante-et-onze"
+                result += "swasant-é-yonz"
             elif tens == 70:
                 result += _NUM_STRING_FR[60] + "-"
                 if ones < 7:
@@ -128,7 +128,7 @@ def pronounce_number_fr(number, places=2):
                 result += _NUM_STRING_FR[tens] + "-" + _NUM_STRING_FR[ones]
         else:
             if number == 80:
-                result += "quatre-vingts"
+                result += "katrèven"
             else:
                 result += _NUM_STRING_FR[tens]
     else:
@@ -136,17 +136,17 @@ def pronounce_number_fr(number, places=2):
 
     # Deal with decimal part
     if not number == int(number) and places > 0:
-        if abs(number) < 1.0 and (result == "moins " or not result):
+        if abs(number) < 1.0 and (result == "wen " or not result):
             result += "zéro"
-        result += " virgule"
+        result += " virgil"
         _num_str = str(number)
         _num_str = _num_str.split(".")[1][0:places]
         for char in _num_str:
-            result += " " + _NUM_STRING_FR[int(char)]
+            result += " " + _NUM_STRING_GCF[int(char)]
     return result
 
 
-def nice_time_fr(dt, speech=True, use_24hour=False, use_ampm=False):
+def nice_time_gcf(dt, speech=True, use_24hour=False, use_ampm=False):
     """
     Format a time to a comfortable human format
     For example, generate 'cinq heures trente' for speech or '5:30' for
@@ -179,21 +179,21 @@ def nice_time_fr(dt, speech=True, use_24hour=False, use_ampm=False):
     speak = ""
     if use_24hour:
 
-        # "13 heures trente"
+        # "13 é trante"
         if dt.hour == 0:
-            speak += "minuit"
+            speak += "minwi"
         elif dt.hour == 12:
             speak += "midi"
         elif dt.hour == 1:
-            speak += "une heure"
+            speak += "inè"
         else:
-            speak += pronounce_number_fr(dt.hour) + " heures"
+            speak += pronounce_number_gcf(dt.hour) + " è"
 
         if dt.minute != 0:
-            speak += " " + pronounce_number_fr(dt.minute)
+            speak += " " + pronounce_number_gcf(dt.minute)
 
     else:
-        # Prepare for "trois heures moins le quart"
+        # Prepare for "twa zè mwen-l-ka "
         if dt.minute == 35:
             minute = -25
             hour = dt.hour + 1
@@ -214,32 +214,32 @@ def nice_time_fr(dt, speech=True, use_24hour=False, use_ampm=False):
             hour = dt.hour
 
         if hour == 0:
-            speak += "minuit"
+            speak += "minwi"
         elif hour == 12:
             speak += "midi"
         elif hour == 1 or hour == 13:
-            speak += "une heure"
+            speak += "inè"
         elif hour < 13:
-            speak = pronounce_number_fr(hour) + " heures"
+            speak = pronounce_number_fr(hour) + " è"
         else:
-            speak = pronounce_number_fr(hour-12) + " heures"
+            speak = pronounce_number_fr(hour-12) + " è"
 
         if minute != 0:
             if minute == 15:
-                speak += " et quart"
+                speak += " é ka"
             elif minute == 30:
-                speak += " et demi"
+                speak += " é dèmi"
             elif minute == -15:
-                speak += " moins le quart"
+                speak += " mwen-l-ka"
             else:
-                speak += " " + pronounce_number_fr(minute)
+                speak += " " + pronounce_number_gcf(minute)
 
         if use_ampm:
             if hour > 17:
-                speak += " du soir"
+                speak += " d-swa"
             elif hour > 12:
-                speak += " de l'après-midi"
+                speak += " dè l'aprè-midi"
             elif hour > 0 and hour < 12:
-                speak += " du matin"
+                speak += " d-maten"
 
     return speak
