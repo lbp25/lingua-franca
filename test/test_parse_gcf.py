@@ -146,8 +146,8 @@ class TestNormalize_gcf(unittest.TestCase):
                        "raplé-mwen kriyé manman")
         testExtract_gcf("Jwé misik à Beyonce 2 jou apré vandrèdi",
                        "2017-07-02 00:00:00", "jwé misik beyonce")
-        testExtract_gcf("komansé invasion-là à 15 è 45 jédi",
-                       "2017-06-29 15:45:00", "komansé invasion")
+        testExtract_gcf("komansé envasion-là à 15 è 45 jédi",
+                       "2017-06-29 15:45:00", "komansé envasion")
         testExtract_gcf("Lendi, komandé gato-là en boulanjri-là",
                        "2017-07-03 00:00:00", "komandé gato en boulanjri")
         testExtract_gcf("Jwé chanson à Joyeux anniversaire dan 5 lanné",
@@ -169,23 +169,23 @@ class TestNormalize_gcf(unittest.TestCase):
                        "2017-07-14 00:00:00", "Achté fé dartifis pou")
         testExtract_gcf("Ki tan i ké fè 2 simenn apré vandrèdi",
                        "2017-07-14 00:00:00", "ki tan i ké fè")
-        testExtract_gcf("Quel temps fera-t-il mercredi à 7 heures",
-                       "2017-06-28 07:00:00", "quel temps fera-t-il")
-        testExtract_gcf("Quel temps fera-t-il mercredi à 7 heures",
-                       "2017-06-28 07:00:00", "quel temps fera-t-il")
-        testExtract_gcf("Prendre rendez-vous à 12:45 jeudi prochain",
-                       "2017-07-06 12:45:00", "prendre rendez-vous")
-        testExtract_gcf("Quel temps fait-il ce jeudi ?",
-                       "2017-06-29 00:00:00", "quel temps fait-il")
-        testExtract_gcf("Organiser une visite 2 semaines et 6 jours après"
-                       " samedi",
-                       "2017-07-21 00:00:00", "organiser 1 visite")
-        testExtract_gcf("Commencer l'invasion à 3 heures 45 jeudi",
-                       "2017-06-29 03:45:00", "commencer invasion")
-        testExtract_gcf("Commencer l'invasion à 20 heures jeudi",
-                       "2017-06-29 20:00:00", "commencer invasion")
-        testExtract_gcf("Lancer la fête jeudi à 8 heures du soir",
-                       "2017-06-29 20:00:00", "lancer fête")
+        testExtract_gcf("Ki tan i ké fè mewkrèdi à 7 è",
+                       "2017-06-28 07:00:00", "ki tan i ké fè")
+        testExtract_gcf("ki ta i kay fè mewkrèdi à 7 è",
+                       "2017-06-28 07:00:00", "ki tan i kay fè")
+        testExtract_gcf("Pran rendez-vous à 12:45 jédi pwochen",
+                       "2017-07-06 12:45:00", "pran rendez-vous")
+        testExtract_gcf("Ki tan i ka jédi ?",
+                       "2017-06-29 00:00:00", "ki tan i ka fè")
+        testExtract_gcf("Organizé on visit 2 simenn é 6 jou apré"
+                       " sanmdi",
+                       "2017-07-21 00:00:00", "organizé 1 visit")
+        testExtract_gcf("Komansé envazion-là à 3 zè 45 jédi",
+                       "2017-06-29 03:45:00", "komansé envazion")
+        testExtract_gcf("Komansé envazion-là à 20 è jédi",
+                       "2017-06-29 20:00:00", "komansé envazion")
+        testExtract_gcf("Lansé lafèt-là jédi à 8 è-d-swa",
+                       "2017-06-29 20:00:00", "lansé lafèt")
         testExtract_gcf("Commencer l'invasion à 4 heures de l'après-midi jeudi",
                        "2017-06-29 16:00:00", "commencer invasion")
         testExtract_gcf("Commencer l'invasion jeudi à midi",
