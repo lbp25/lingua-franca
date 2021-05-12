@@ -131,44 +131,44 @@ class TestNormalize_gcf(unittest.TestCase):
             self.assertEqual(res[0], expected_date)
             self.assertEqual(res[1], expected_leftover)
 
-        testExtract_gcf("Planifier l'embûche dans 5 jours",
-                       "2017-07-02 00:00:00", "planifier embûche")
-        testExtract_gcf("Quel temps fera-t-il après-demain ?",
-                       "2017-06-29 00:00:00", "quel temps fera-t-il")
-        testExtract_gcf("Met un rappel à 10:45 du soir",
-                       "2017-06-27 22:45:00", "met 1 rappel")
-        testExtract_gcf("quel temps est prévu pour vendredi matin ?",
-                       "2017-06-30 08:00:00", "quel temps est prévu pour")
-        testExtract_gcf("quel temps fait-il demain",
-                       "2017-06-28 00:00:00", "quel temps fait-il")
-        testExtract_gcf("rappelle-moi d'appeler maman dans 8 semaines et"
-                       " 2 jours", "2017-08-24 00:00:00",
-                       "rappelle-moi appeler maman")
-        testExtract_gcf("Jouer des musiques de Beyonce 2 jours après vendredi",
-                       "2017-07-02 00:00:00", "jouer musiques beyonce")
-        testExtract_gcf("Commencer l'invasion à 15 heures 45 jeudi",
-                       "2017-06-29 15:45:00", "commencer invasion")
-        testExtract_gcf("Lundi, commander le gâteau à la boulangerie",
-                       "2017-07-03 00:00:00", "commander gâteau à boulangerie")
-        testExtract_gcf("Jouer la chanson Joyeux anniversaire dans 5 ans",
-                       "2022-06-27 00:00:00", "jouer chanson joyeux"
+        testExtract_gcf("Plannifié anbuch-là pou dan 5 jou",
+                       "2017-07-02 00:00:00", "plannifié anbuch")
+        testExtract_gcf("Ki tan i kay fè aprè-dèmen ?",
+                       "2017-06-29 00:00:00", "ki tan i kay fè")
+        testExtract_gcf("Mèt on rapèl à 10:45pm",
+                       "2017-06-27 22:45:00", "mèt 1 rapèl")
+        testExtract_gcf("Ki tan i kay fè vandrèdi maten ?",
+                       "2017-06-30 08:00:00", "ki tan i kay fè")
+        testExtract_gcf("Ki tan i kay fè dèmen",
+                       "2017-06-28 00:00:00", "ki tan i kay fè")
+        testExtract_gcf("Raplé-mwen kriyé manman adan 8 sèmenn é"
+                       " 2 jou", "2017-08-24 00:00:00",
+                       "raplé-mwen kriyé manman")
+        testExtract_gcf("Jwé misik à Beyonce 2 jou apré vandrèdi",
+                       "2017-07-02 00:00:00", "jwé misik beyonce")
+        testExtract_gcf("komansé invasion-là à 15 è 45 jédi",
+                       "2017-06-29 15:45:00", "komansé invasion")
+        testExtract_gcf("Lendi, komandé gato-là en boulanjri-là",
+                       "2017-07-03 00:00:00", "komandé gato en boulanjri")
+        testExtract_gcf("Jwé chanson à Joyeux anniversaire dan 5 lanné",
+                       "2022-06-27 00:00:00", "jwé chanson joyeux"
                        " anniversaire")
-        testExtract_gcf("Skyper Maman à 12 heures 45 jeudi prochain",
-                       "2017-07-06 12:45:00", "skyper maman")
-        testExtract_gcf("Quel temps fera-t-il jeudi prochain ?",
-                       "2017-07-06 00:00:00", "quel temps fera-t-il")
-        testExtract_gcf("Quel temps fera-t-il vendredi matin ?",
-                       "2017-06-30 08:00:00", "quel temps fera-t-il")
-        testExtract_gcf("Quel temps fera-t-il vendredi soir",
-                       "2017-06-30 19:00:00", "quel temps fera-t-il")
-        testExtract_gcf("Quel temps fera-t-il vendredi après-midi",
-                       "2017-06-30 15:00:00", "quel temps fera-t-il")
-        testExtract_gcf("rappelle-moi d'appeler maman le 3 août",
-                       "2017-08-03 00:00:00", "rappelle-moi appeler maman")
-        testExtract_gcf("Acheter des feux d'artifice pour le 14 juil",
-                       "2017-07-14 00:00:00", "acheter feux artifice pour")
-        testExtract_gcf("Quel temps fera-t-il 2 semaines après vendredi",
-                       "2017-07-14 00:00:00", "quel temps fera-t-il")
+        testExtract_gcf("Skypé Manman à 12 è 45 jédi pwochen",
+                       "2017-07-06 12:45:00", "skypé manman")
+        testExtract_gcf("Ki tant i kay fè jédi pwochen ?",
+                       "2017-07-06 00:00:00", "ki tan i kay fè")
+        testExtract_gcf("Ki tan i kay fè vandrèdi matin ?",
+                       "2017-06-30 08:00:00", "ki tan i kay fè")
+        testExtract_gcf("Ki tan i kay fè vandrèdi au swa? ",
+                       "2017-06-30 19:00:00", "ki tan i kay fè")
+        testExtract_gcf("Ki tan i kay fè vandredi an lapré-midi-là?",
+                       "2017-06-30 15:00:00", "ki tan i kay fè")
+        testExtract_gcf("Raplé-mwen kriyé manman lè 3 août",
+                       "2017-08-03 00:00:00", "raplé-mwen kriyé manman")
+        testExtract_gcf("Achté fé dartifis pou lè 14 juil",
+                       "2017-07-14 00:00:00", "Achté fé dartifis pou")
+        testExtract_gcf("Ki tan i ké fè 2 simenn apré vandrèdi",
+                       "2017-07-14 00:00:00", "ki tan i ké fè")
         testExtract_gcf("Quel temps fera-t-il mercredi à 7 heures",
                        "2017-06-28 07:00:00", "quel temps fera-t-il")
         testExtract_gcf("Quel temps fera-t-il mercredi à 7 heures",
