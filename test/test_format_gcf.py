@@ -23,7 +23,7 @@ from lingua_franca.format import pronounce_number
 
 
 def setUpModule():
-    load_language('fr-fr')
+    load_language('fr-gcf')
     set_default_lang('gcf')
 
 
@@ -70,119 +70,119 @@ class TestNiceNumberFormat_fr(unittest.TestCase):
             self.assertEqual(nice_number(number, lang="fr-fr"), number_str,
                              'should format {} as {} and not {}'.format(
                                  number, number_str, nice_number(
-                                     number, lang="fr-fr")))
+                                     number, lang="fr-gcf")))
 
     def test_specify_denominator_fr(self):
-        self.assertEqual(nice_number(5.5, lang="fr-fr",
+        self.assertEqual(nice_number(5.5, lang="fr-gcf",
                                      denominators=[1, 2, 3]),
                          '5 et demi',
                          'should format 5.5 as 5 et demi not {}'.format(
-                             nice_number(5.5, lang="fr-fr",
+                             nice_number(5.5, lang="fr-gcf",
                                          denominators=[1, 2, 3])))
-        self.assertEqual(nice_number(2.333, lang="fr-fr",
+        self.assertEqual(nice_number(2.333, lang="fr-gcf",
                                      denominators=[1, 2]),
                          '2,333',
                          'should format 2.333 as 2,333 not {}'.format(
-                             nice_number(2.333, lang="fr-fr",
+                             nice_number(2.333, lang="fr-gcf",
                                          denominators=[1, 2])))
 
     def test_no_speech_fr(self):
-        self.assertEqual(nice_number(6.777, lang="fr-fr", speech=False),
+        self.assertEqual(nice_number(6.777, lang="fr-gcf", speech=False),
                          '6 7/9',
                          'should format 6.777 as 6 7/9 not {}'.format(
-                             nice_number(6.777, lang="fr-fr", speech=False)))
-        self.assertEqual(nice_number(6.0, lang="fr-fr", speech=False),
+                             nice_number(6.777, lang="fr-gcf", speech=False)))
+        self.assertEqual(nice_number(6.0, lang="fr-gcf", speech=False),
                          '6',
                          'should format 6.0 as 6 not {}'.format(
-                             nice_number(6.0, lang="fr-fr", speech=False)))
-        self.assertEqual(nice_number(1234567890, lang="fr-fr", speech=False),
+                             nice_number(6.0, lang="fr-gcf", speech=False)))
+        self.assertEqual(nice_number(1234567890, lang="fr-gcf", speech=False),
                          '1 234 567 890',
                          'should format 1234567890 as'
                          '1 234 567 890 not {}'.format(
-                             nice_number(1234567890, lang="fr-fr",
+                             nice_number(1234567890, lang="fr-gcf",
                                          speech=False)))
-        self.assertEqual(nice_number(12345.6789, lang="fr-fr", speech=False),
+        self.assertEqual(nice_number(12345.6789, lang="fr-gcf", speech=False),
                          '12 345,679',
                          'should format 12345.6789 as'
                          '12 345,679 not {}'.format(
-                             nice_number(12345.6789, lang="fr-fr",
+                             nice_number(12345.6789, lang="fr-gcf",
                                          speech=False)))
 
 
 # def pronounce_number(number, lang="en-us", places=2):
-class TestPronounceNumber_fr(unittest.TestCase):
-    def test_convert_int_fr(self):
-        self.assertEqual(pronounce_number(0, lang="fr-fr"), "zéro")
-        self.assertEqual(pronounce_number(1, lang="fr-fr"), "un")
-        self.assertEqual(pronounce_number(10, lang="fr-fr"), "dix")
-        self.assertEqual(pronounce_number(15, lang="fr-fr"), "quinze")
-        self.assertEqual(pronounce_number(20, lang="fr-fr"), "vingt")
-        self.assertEqual(pronounce_number(27, lang="fr-fr"), "vingt-sept")
-        self.assertEqual(pronounce_number(30, lang="fr-fr"), "trente")
-        self.assertEqual(pronounce_number(33, lang="fr-fr"), "trente-trois")
-        self.assertEqual(pronounce_number(71, lang="fr-fr"),
-                         "soixante-et-onze")
-        self.assertEqual(pronounce_number(80, lang="fr-fr"), "quatre-vingts")
-        self.assertEqual(pronounce_number(74, lang="fr-fr"),
-                         "soixante-quatorze")
-        self.assertEqual(pronounce_number(79, lang="fr-fr"),
-                         "soixante-dix-neuf")
-        self.assertEqual(pronounce_number(91, lang="fr-fr"),
-                         "quatre-vingt-onze")
-        self.assertEqual(pronounce_number(97, lang="fr-fr"),
-                         "quatre-vingt-dix-sept")
-        self.assertEqual(pronounce_number(300, lang="fr-fr"), "300")
+class TestPronounceNumber_gcf(unittest.TestCase):
+    def test_convert_int_gcf(self):
+        self.assertEqual(pronounce_number(0, lang="fr-gcf"), "zéro")
+        self.assertEqual(pronounce_number(1, lang="fr-gcf"), "yonn")
+        self.assertEqual(pronounce_number(10, lang="fr-gcf"), "dis")
+        self.assertEqual(pronounce_number(15, lang="fr-gcf"), "kinz")
+        self.assertEqual(pronounce_number(20, lang="fr-gcf"), "ven")
+        self.assertEqual(pronounce_number(27, lang="fr-gcf"), "venn-sèt")
+        self.assertEqual(pronounce_number(30, lang="fr-gcf"), "trant")
+        self.assertEqual(pronounce_number(33, lang="fr-gcf"), "tranntwa")
+        self.assertEqual(pronounce_number(71, lang="fr-gcf"),
+                         "soisant-é-onz")
+        self.assertEqual(pronounce_number(80, lang="fr-gcf"), "katrèven")
+        self.assertEqual(pronounce_number(74, lang="fr-gcf"),
+                         "soisann-katoz")
+        self.assertEqual(pronounce_number(79, lang="fr-gcf"),
+                         "soisann-diznèf")
+        self.assertEqual(pronounce_number(91, lang="fr-gcf"),
+                         "katrèven-onz")
+        self.assertEqual(pronounce_number(97, lang="fr-gcf"),
+                         "katrèven-disèt")
+        self.assertEqual(pronounce_number(300, lang="fr-gcf"), "300")
 
     def test_convert_negative_int_fr(self):
-        self.assertEqual(pronounce_number(-1, lang="fr-fr"), "moins un")
-        self.assertEqual(pronounce_number(-10, lang="fr-fr"), "moins dix")
-        self.assertEqual(pronounce_number(-15, lang="fr-fr"), "moins quinze")
-        self.assertEqual(pronounce_number(-20, lang="fr-fr"), "moins vingt")
-        self.assertEqual(pronounce_number(-27, lang="fr-fr"),
-                         "moins vingt-sept")
-        self.assertEqual(pronounce_number(-30, lang="fr-fr"), "moins trente")
-        self.assertEqual(pronounce_number(-33, lang="fr-fr"),
-                         "moins trente-trois")
+        self.assertEqual(pronounce_number(-1, lang="fr-gcf"), "mwen yonn")
+        self.assertEqual(pronounce_number(-10, lang="fr-gcf"), "mwen dis")
+        self.assertEqual(pronounce_number(-15, lang="fr-gcf"), "mwen kenz")
+        self.assertEqual(pronounce_number(-20, lang="fr-gcf"), "mwen ven")
+        self.assertEqual(pronounce_number(-27, lang="fr-gcf"),
+                         "mwen vennsèt")
+        self.assertEqual(pronounce_number(-30, lang="fr-gcf"), "mwen trant")
+        self.assertEqual(pronounce_number(-33, lang="fr-gcf"),
+                         "mwen tranntwa")
 
-    def test_convert_decimals_fr(self):
-        self.assertEqual(pronounce_number(0.05, lang="fr-fr"),
-                         "zéro virgule zéro cinq")
-        self.assertEqual(pronounce_number(-0.05, lang="fr-fr"),
-                         "moins zéro virgule zéro cinq")
-        self.assertEqual(pronounce_number(1.234, lang="fr-fr"),
-                         "un virgule deux trois")
-        self.assertEqual(pronounce_number(21.234, lang="fr-fr"),
-                         "vingt-et-un virgule deux trois")
-        self.assertEqual(pronounce_number(21.234, lang="fr-fr", places=1),
-                         "vingt-et-un virgule deux")
-        self.assertEqual(pronounce_number(21.234, lang="fr-fr", places=0),
-                         "vingt-et-un")
-        self.assertEqual(pronounce_number(21.234, lang="fr-fr", places=3),
-                         "vingt-et-un virgule deux trois quatre")
-        self.assertEqual(pronounce_number(21.234, lang="fr-fr", places=4),
-                         "vingt-et-un virgule deux trois quatre")
-        self.assertEqual(pronounce_number(21.234, lang="fr-fr", places=5),
-                         "vingt-et-un virgule deux trois quatre")
-        self.assertEqual(pronounce_number(-1.234, lang="fr-fr"),
-                         "moins un virgule deux trois")
-        self.assertEqual(pronounce_number(-21.234, lang="fr-fr"),
-                         "moins vingt-et-un virgule deux trois")
-        self.assertEqual(pronounce_number(-21.234, lang="fr-fr", places=1),
-                         "moins vingt-et-un virgule deux")
-        self.assertEqual(pronounce_number(-21.234, lang="fr-fr", places=0),
-                         "moins vingt-et-un")
-        self.assertEqual(pronounce_number(-21.234, lang="fr-fr", places=3),
-                         "moins vingt-et-un virgule deux trois quatre")
-        self.assertEqual(pronounce_number(-21.234, lang="fr-fr", places=4),
-                         "moins vingt-et-un virgule deux trois quatre")
-        self.assertEqual(pronounce_number(-21.234, lang="fr-fr", places=5),
-                         "moins vingt-et-un virgule deux trois quatre")
+    def test_convert_decimals_gcf(self):
+        self.assertEqual(pronounce_number(0.05, lang="fr-gcf"),
+                         "zéro virgil zéro senk")
+        self.assertEqual(pronounce_number(-0.05, lang="fr-gcf"),
+                         "mwen zéro virgil zéro senk")
+        self.assertEqual(pronounce_number(1.234, lang="fr-gcf"),
+                         "yonn virgil dé twa")
+        self.assertEqual(pronounce_number(21.234, lang="fr-gcf"),
+                         "vent-é-yun virgil dé twa")
+        self.assertEqual(pronounce_number(21.234, lang="fr-gcf", places=1),
+                         "vent-é-yun virgil dé")
+        self.assertEqual(pronounce_number(21.234, lang="fr-gcf", places=0),
+                         "vent-é-yun")
+        self.assertEqual(pronounce_number(21.234, lang="fr-gcf", places=3),
+                         "vent-é-yun virgil dé twa kat")
+        self.assertEqual(pronounce_number(21.234, lang="fr-gcf", places=4),
+                         "vent-é-yun virgil dé twa kat")
+        self.assertEqual(pronounce_number(21.234, lang="fr-gcf", places=5),
+                         "vent-é-yun virgil dé twa kat")
+        self.assertEqual(pronounce_number(-1.234, lang="fr-gcf"),
+                         "mwen yonn virgil dé twa")
+        self.assertEqual(pronounce_number(-21.234, lang="fr-gcf"),
+                         "mwen vent-é-yun virgil dé twa")
+        self.assertEqual(pronounce_number(-21.234, lang="fr-gcf", places=1),
+                         "mwen vent-é-yun virgil dé")
+        self.assertEqual(pronounce_number(-21.234, lang="fr-gcf", places=0),
+                         "mwen vent-é-yun")
+        self.assertEqual(pronounce_number(-21.234, lang="fr-gcf", places=3),
+                         "mwen vent-é-yun virgil dé twa kat")
+        self.assertEqual(pronounce_number(-21.234, lang="fr-gcf", places=4),
+                         "mwen vent-é-yun virgil dé twa kat")
+        self.assertEqual(pronounce_number(-21.234, lang="fr-gcf", places=5),
+                         "mwen vent-é-yun virgil dé twa kat")
 
 
 # def nice_time(dt, lang="en-us", speech=True, use_24hour=False,
 #              use_ampm=False):
-class TestNiceDateFormat_fr(unittest.TestCase):
-    def test_convert_times_fr(self):
+class TestNiceDateFormat_gcf(unittest.TestCase):
+    def test_convert_times_gcf(self):
         dt = datetime.datetime(2017, 1, 31,
                                13, 22, 3)
 
