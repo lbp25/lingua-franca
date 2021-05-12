@@ -55,7 +55,7 @@ class TestNormalize_gcf(unittest.TestCase):
         self.assertEqual(extract_number("cé 2 test", lang="fr-gcf"), 2)
         self.assertEqual(extract_number("mi sègon test-là", lang="fr-gcf"),
                          2)
-        self.assertEqual(extract_number("mi twa tests",
+        self.assertEqual(extract_number("mi twa test",
                                         lang="fr-gcf"),
                          3)
         self.assertEqual(extract_number("mi test niméro 4-là",
