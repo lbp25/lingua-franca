@@ -186,106 +186,106 @@ class TestNiceDateFormat_gcf(unittest.TestCase):
         dt = datetime.datetime(2017, 1, 31,
                                13, 22, 3)
 
-        self.assertEqual(nice_time(dt, lang="fr-fr"),
-                         "une heure vingt-deux")
-        self.assertEqual(nice_time(dt, lang="fr-fr", use_ampm=True),
-                         "une heure vingt-deux de l'après-midi")
-        self.assertEqual(nice_time(dt, lang="fr-fr", speech=False),
+        self.assertEqual(nice_time(dt, lang="fr-gcf"),
+                         "inè é venndé minit")
+        self.assertEqual(nice_time(dt, lang="fr-gcf", use_ampm=True),
+                         "inè-d-swa é venndé minit")
+        self.assertEqual(nice_time(dt, lang="fr-gcf", speech=False),
                          "1:22")
-        self.assertEqual(nice_time(dt, lang="fr-fr", speech=False,
+        self.assertEqual(nice_time(dt, lang="fr-gcf", speech=False,
                                    use_ampm=True),
                          "1:22 PM")
-        self.assertEqual(nice_time(dt, lang="fr-fr", speech=False,
+        self.assertEqual(nice_time(dt, lang="fr-gcf", speech=False,
                                    use_24hour=True),
                          "13:22")
-        self.assertEqual(nice_time(dt, lang="fr-fr", speech=False,
+        self.assertEqual(nice_time(dt, lang="fr-gcf", speech=False,
                                    use_24hour=True, use_ampm=True),
                          "13:22")
-        self.assertEqual(nice_time(dt, lang="fr-fr", use_24hour=True,
+        self.assertEqual(nice_time(dt, lang="fr-gcf", use_24hour=True,
                                    use_ampm=True),
-                         "treize heures vingt-deux")
-        self.assertEqual(nice_time(dt, lang="fr-fr", use_24hour=True,
+                         "trézè venndé")
+        self.assertEqual(nice_time(dt, lang="fr-gcf", use_24hour=True,
                                    use_ampm=False),
-                         "treize heures vingt-deux")
+                         "trézè venndé")
 
         dt = datetime.datetime(2017, 1, 31,
                                13, 0, 3)
-        self.assertEqual(nice_time(dt, lang="fr-fr"),
-                         "une heure")
-        self.assertEqual(nice_time(dt, lang="fr-fr", use_ampm=True),
-                         "une heure de l'après-midi")
-        self.assertEqual(nice_time(dt, lang="fr-fr", speech=False),
+        self.assertEqual(nice_time(dt, lang="fr-gcf"),
+                         "inè")
+        self.assertEqual(nice_time(dt, lang="fr-gcf", use_ampm=True),
+                         "inè-d-swa")
+        self.assertEqual(nice_time(dt, lang="fr-gcf", speech=False),
                          "1:00")
-        self.assertEqual(nice_time(dt, lang="fr-fr", speech=False,
+        self.assertEqual(nice_time(dt, lang="fr-gcf", speech=False,
                                    use_ampm=True),
                          "1:00 PM")
-        self.assertEqual(nice_time(dt, lang="fr-fr", speech=False,
+        self.assertEqual(nice_time(dt, lang="fr-gcf", speech=False,
                                    use_24hour=True),
                          "13:00")
-        self.assertEqual(nice_time(dt, lang="fr-fr", speech=False,
+        self.assertEqual(nice_time(dt, lang="fr-gcf", speech=False,
                                    use_24hour=True, use_ampm=True),
                          "13:00")
-        self.assertEqual(nice_time(dt, lang="fr-fr", use_24hour=True,
+        self.assertEqual(nice_time(dt, lang="fr-gcf", use_24hour=True,
                                    use_ampm=True),
-                         "treize heures")
-        self.assertEqual(nice_time(dt, lang="fr-fr", use_24hour=True,
+                         "trézè")
+        self.assertEqual(nice_time(dt, lang="fr-gcf", use_24hour=True,
                                    use_ampm=False),
-                         "treize heures")
+                         "trézè")
 
         dt = datetime.datetime(2017, 1, 31,
                                13, 2, 3)
-        self.assertEqual(nice_time(dt, lang="fr-fr"),
-                         "une heure deux")
-        self.assertEqual(nice_time(dt, lang="fr-fr", use_ampm=True),
-                         "une heure deux de l'après-midi")
-        self.assertEqual(nice_time(dt, lang="fr-fr", speech=False),
+        self.assertEqual(nice_time(dt, lang="fr-gcf"),
+                         "inè é dé minit")
+        self.assertEqual(nice_time(dt, lang="fr-gcf", use_ampm=True),
+                         "inè-d-swa é dé minit")
+        self.assertEqual(nice_time(dt, lang="fr-gcf", speech=False),
                          "1:02")
-        self.assertEqual(nice_time(dt, lang="fr-fr", speech=False,
+        self.assertEqual(nice_time(dt, lang="fr-gcf", speech=False,
                                    use_ampm=True),
                          "1:02 PM")
-        self.assertEqual(nice_time(dt, lang="fr-fr", speech=False,
+        self.assertEqual(nice_time(dt, lang="fr-gcf", speech=False,
                                    use_24hour=True),
                          "13:02")
-        self.assertEqual(nice_time(dt, lang="fr-fr", speech=False,
+        self.assertEqual(nice_time(dt, lang="fr-gcf", speech=False,
                                    use_24hour=True, use_ampm=True),
                          "13:02")
-        self.assertEqual(nice_time(dt, lang="fr-fr", use_24hour=True,
+        self.assertEqual(nice_time(dt, lang="fr-gcf", use_24hour=True,
                                    use_ampm=True),
-                         "treize heures deux")
-        self.assertEqual(nice_time(dt, lang="fr-fr", use_24hour=True,
+                         "trézè é dé minit")
+        self.assertEqual(nice_time(dt, lang="fr-gcf", use_24hour=True,
                                    use_ampm=False),
-                         "treize heures deux")
+                         "trézè é dé minit")
 
         dt = datetime.datetime(2017, 1, 31,
                                0, 2, 3)
-        self.assertEqual(nice_time(dt, lang="fr-fr"),
-                         "minuit deux")
-        self.assertEqual(nice_time(dt, lang="fr-fr", use_ampm=True),
-                         "minuit deux")
-        self.assertEqual(nice_time(dt, lang="fr-fr", speech=False),
+        self.assertEqual(nice_time(dt, lang="fr-gcf"),
+                         "minwi dé")
+        self.assertEqual(nice_time(dt, lang="fr-gcf", use_ampm=True),
+                         "minxi dé")
+        self.assertEqual(nice_time(dt, lang="fr-gcf", speech=False),
                          "12:02")
-        self.assertEqual(nice_time(dt, lang="fr-fr", speech=False,
+        self.assertEqual(nice_time(dt, lang="fr-gcf", speech=False,
                                    use_ampm=True),
                          "12:02 AM")
-        self.assertEqual(nice_time(dt, lang="fr-fr", speech=False,
+        self.assertEqual(nice_time(dt, lang="fr-gcf", speech=False,
                                    use_24hour=True),
                          "00:02")
-        self.assertEqual(nice_time(dt, lang="fr-fr", speech=False,
+        self.assertEqual(nice_time(dt, lang="fr-gcf", speech=False,
                                    use_24hour=True, use_ampm=True),
                          "00:02")
-        self.assertEqual(nice_time(dt, lang="fr-fr", use_24hour=True,
+        self.assertEqual(nice_time(dt, lang="fr-gcf", use_24hour=True,
                                    use_ampm=True),
-                         "minuit deux")
-        self.assertEqual(nice_time(dt, lang="fr-fr", use_24hour=True,
+                         "minwi dé")
+        self.assertEqual(nice_time(dt, lang="fr-gcf", use_24hour=True,
                                    use_ampm=False),
-                         "minuit deux")
+                         "minwi dé")
 
         dt = datetime.datetime(2017, 1, 31,
                                12, 15, 9)
         self.assertEqual(nice_time(dt, lang="fr-fr"),
-                         "midi et quart")
+                         "midi un ka")
         self.assertEqual(nice_time(dt, lang="fr-fr", use_ampm=True),
-                         "midi et quart")
+                         "midi un ka")
         self.assertEqual(nice_time(dt, lang="fr-fr", speech=False),
                          "12:15")
         self.assertEqual(nice_time(dt, lang="fr-fr", speech=False,
@@ -299,64 +299,64 @@ class TestNiceDateFormat_gcf(unittest.TestCase):
                          "12:15")
         self.assertEqual(nice_time(dt, lang="fr-fr", use_24hour=True,
                                    use_ampm=True),
-                         "midi quinze")
+                         "midi kinz")
         self.assertEqual(nice_time(dt, lang="fr-fr", use_24hour=True,
                                    use_ampm=False),
-                         "midi quinze")
+                         "midi kinz")
 
         dt = datetime.datetime(2017, 1, 31,
                                19, 40, 49)
-        self.assertEqual(nice_time(dt, lang="fr-fr"),
-                         "huit heures moins vingt")
-        self.assertEqual(nice_time(dt, lang="fr-fr", use_ampm=True),
-                         "huit heures moins vingt du soir")
-        self.assertEqual(nice_time(dt, lang="fr-fr", speech=False),
+        self.assertEqual(nice_time(dt, lang="fr-gcf"),
+                         "huitè mwen ven")
+        self.assertEqual(nice_time(dt, lang="fr-gcf", use_ampm=True),
+                         "huitè-d-swa mwen ven")
+        self.assertEqual(nice_time(dt, lang="fr-gcf", speech=False),
                          "7:40")
-        self.assertEqual(nice_time(dt, lang="fr-fr", speech=False,
+        self.assertEqual(nice_time(dt, lang="fr-gcf", speech=False,
                                    use_ampm=True),
                          "7:40 PM")
-        self.assertEqual(nice_time(dt, lang="fr-fr", speech=False,
+        self.assertEqual(nice_time(dt, lang="fr-gcf", speech=False,
                                    use_24hour=True),
                          "19:40")
-        self.assertEqual(nice_time(dt, lang="fr-fr", speech=False,
+        self.assertEqual(nice_time(dt, lang="fr-gcf", speech=False,
                                    use_24hour=True, use_ampm=True),
                          "19:40")
-        self.assertEqual(nice_time(dt, lang="fr-fr", use_24hour=True,
+        self.assertEqual(nice_time(dt, lang="fr-gcf", use_24hour=True,
                                    use_ampm=True),
-                         "dix-neuf heures quarante")
-        self.assertEqual(nice_time(dt, lang="fr-fr", use_24hour=True,
+                         "diznévè karant")
+        self.assertEqual(nice_time(dt, lang="fr-gcf", use_24hour=True,
                                    use_ampm=False),
-                         "dix-neuf heures quarante")
+                         "diznévè karant")
 
         dt = datetime.datetime(2017, 1, 31,
                                1, 15, 00)
-        self.assertEqual(nice_time(dt, lang="fr-fr", use_24hour=True),
-                         "une heure quinze")
+        self.assertEqual(nice_time(dt, lang="fr-gcf", use_24hour=True),
+                         "inè kenz")
 
         dt = datetime.datetime(2017, 1, 31,
                                1, 35, 00)
-        self.assertEqual(nice_time(dt, lang="fr-fr"),
-                         "deux heures moins vingt-cinq")
+        self.assertEqual(nice_time(dt, lang="fr-gcf"),
+                         "dézè mwen vennsenk")
 
         dt = datetime.datetime(2017, 1, 31,
                                1, 45, 00)
-        self.assertEqual(nice_time(dt, lang="fr-fr"),
-                         "deux heures moins le quart")
+        self.assertEqual(nice_time(dt, lang="fr-gcf"),
+                         "dézè mwen-l-ka")
 
         dt = datetime.datetime(2017, 1, 31,
                                4, 50, 00)
-        self.assertEqual(nice_time(dt, lang="fr-fr"),
-                         "cinq heures moins dix")
+        self.assertEqual(nice_time(dt, lang="fr-gcf"),
+                         "senkè mwen dis")
 
         dt = datetime.datetime(2017, 1, 31,
                                5, 55, 00)
-        self.assertEqual(nice_time(dt, lang="fr-fr"),
-                         "six heures moins cinq")
+        self.assertEqual(nice_time(dt, lang="fr-gcf"),
+                         "sizè mwen senk")
 
         dt = datetime.datetime(2017, 1, 31,
                                5, 30, 00)
-        self.assertEqual(nice_time(dt, lang="fr-fr", use_ampm=True),
-                         "cinq heures et demi du matin")
+        self.assertEqual(nice_time(dt, lang="fr-gcf", use_ampm=True),
+                         "senkè é dèmi")
 
 
 if __name__ == "__main__":
