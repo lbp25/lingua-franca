@@ -85,7 +85,7 @@ class TestNormalize_gcf(unittest.TestCase):
                          0.2)
         self.assertEqual(extract_number("pwen di tou", lang="fr-gcf"), False)
         self.assertEqual(extract_number("32.00 secondes", lang="fr-gcf"), 32)
-        self.assertEqual(extract_number("manj trantéyun bouji",
+        self.assertEqual(extract_number("manjé trantéyun bouji",
                                         lang="fr-gcf"), 31)
         self.assertEqual(extract_number("on trantièm",
                                         lang="fr-gcf"), 1.0 / 30.0)
@@ -186,55 +186,55 @@ class TestNormalize_gcf(unittest.TestCase):
                        "2017-06-29 20:00:00", "komansé envazion")
         testExtract_gcf("Lansé lafèt-là jédi à 8 è-d-swa",
                        "2017-06-29 20:00:00", "lansé lafèt")
-        testExtract_gcf("Commencer l'invasion à 4 heures de l'après-midi jeudi",
-                       "2017-06-29 16:00:00", "commencer invasion")
-        testExtract_gcf("Commencer l'invasion jeudi à midi",
-                       "2017-06-29 12:00:00", "commencer invasion")
-        testExtract_gcf("Commencer l'invasion jeudi à minuit",
-                       "2017-06-29 00:00:00", "commencer invasion")
-        testExtract_gcf("Commencer l'invasion jeudi à dix-sept heures",
-                       "2017-06-29 17:00:00", "commencer invasion")
-        testExtract_gcf("rappelle-moi de me réveiller dans 4 années",
-                       "2021-06-27 00:00:00", "rappelle-moi me réveiller")
-        testExtract_gcf("rappelle-moi de me réveiller dans 4 ans et 4 jours",
-                       "2021-07-01 00:00:00", "rappelle-moi me réveiller")
-        testExtract_gcf("Quel temps fera-t-il 3 jours après demain ?",
-                       "2017-07-01 00:00:00", "quel temps fera-t-il")
+        testExtract_gcf("Komansé envazion-là à 4 è-d-swa",
+                       "2017-06-29 16:00:00", "komansé envaZion")
+        testExtract_gcf("Komansé envazion-là jédi midi",
+                       "2017-06-29 12:00:00", "Komansé envazion")
+        testExtract_gcf("Komansé envazion-là jédi minwi",
+                       "2017-06-29 00:00:00", "Komansé envazion")
+        testExtract_gcf("Komansé envazion-là jédi à disétè",
+                       "2017-06-29 17:00:00", "Komansé envazion")
+        testExtract_gcf("Raplé mwen lévé adan 4 lanné",
+                       "2021-06-27 00:00:00", "Raplé mwen lévé")
+        testExtract_gcf("Raplé mwen lévé adan 4 lanné é 4 jou",
+                       "2021-07-01 00:00:00", "Raplé mwen lévé")
+        testExtract_gcf("Ki tan i kay fè 3 jou apré dèmen ?",
+                       "2017-07-01 00:00:00", "ki tan i kay fè")
         testExtract_gcf("3 décembre",
                        "2017-12-03 00:00:00", "")
-        testExtract_gcf("retrouvons-nous à 8:00 ce soir",
-                       "2017-06-27 20:00:00", "retrouvons-nous")
-        testExtract_gcf("retrouvons-nous demain à minuit et demi",
-                       "2017-06-28 00:30:00", "retrouvons-nous")
-        testExtract_gcf("retrouvons-nous à midi et quart",
-                       "2017-06-27 12:15:00", "retrouvons-nous")
-        testExtract_gcf("retrouvons-nous à midi moins le quart",
-                       "2017-06-27 11:45:00", "retrouvons-nous")
-        testExtract_gcf("retrouvons-nous à midi moins dix",
-                       "2017-06-27 11:50:00", "retrouvons-nous")
-        testExtract_gcf("retrouvons-nous à midi dix",
-                       "2017-06-27 12:10:00", "retrouvons-nous")
-        testExtract_gcf("retrouvons-nous à minuit moins 23",
-                       "2017-06-27 23:37:00", "retrouvons-nous")
-        testExtract_gcf("mangeons à 3 heures moins 23 minutes",
-                       "2017-06-27 02:37:00", "mangeons")
-        testExtract_gcf("mangeons aussi à 4 heures moins le quart du matin",
-                       "2017-06-27 03:45:00", "mangeons aussi")
-        testExtract_gcf("mangeons encore à minuit moins le quart",
-                       "2017-06-27 23:45:00", "mangeons encore")
-        testExtract_gcf("buvons à 4 heures et quart",
-                       "2017-06-27 04:15:00", "buvons")
-        testExtract_gcf("buvons également à 18 heures et demi",
-                       "2017-06-27 18:30:00", "buvons également")
-        testExtract_gcf("dormons à 20 heures moins le quart",
+        testExtract_gcf("Annou kontré à 8:00 au swè-là",
+                       "2017-06-27 20:00:00", "Annou kontré")
+        testExtract_gcf("Annou kontré dèmen à minwi é dèmi",
+                       "2017-06-28 00:30:00", "Annou kontré")
+        testExtract_gcf("Annou kontré à midi é ka",
+                       "2017-06-27 12:15:00", "Annou kontré")
+        testExtract_gcf("Annou kontré à midi mwen-l-ka",
+                       "2017-06-27 11:45:00", "Annou kontré")
+        testExtract_gcf("Annou kontré à midi mwen dis",
+                       "2017-06-27 11:50:00", "Annou kontré")
+        testExtract_gcf("Annou kontré à midi dis",
+                       "2017-06-27 12:10:00", "Annou kontré")
+        testExtract_gcf("Annou kontré à minui mwen 23",
+                       "2017-06-27 23:37:00", "Annou kontré")
+        testExtract_gcf("Annou mangé à 3 è mwen 23 minit",
+                       "2017-06-27 02:37:00", "Annou mangé")
+        testExtract_gcf("Annou mangé osi à 4 è mwen-l-ka lè maten",
+                       "2017-06-27 03:45:00", "Annou mangé osi")
+        testExtract_gcf("Annou mangé ankò à minwi mwen-l-ka",
+                       "2017-06-27 23:45:00", "Annou mangé ankò")
+        testExtract_gcf("Annou bwè à 4 è é ka ",
+                       "2017-06-27 04:15:00", "Annou bwè")
+        testExtract_gcf("Annou bwè osi à 18 è é dèmi",
+                       "2017-06-27 18:30:00", "Annou bwè osi")
+        testExtract_gcf("Annou dòmi à 20 è mwen-l-ka",
                        "2017-06-27 19:45:00", "dormons")
-        testExtract_gcf("buvons le dernier verre à 10 heures moins 12 du soir",
-                       "2017-06-27 21:48:00", "buvons dernier verre")
-        testExtract_gcf("s'échapper de l'île à 15h45",
-                       "2017-06-27 15:45:00", "s'échapper île")
-        testExtract_gcf("s'échapper de l'île à 3h45min de l'après-midi",
-                       "2017-06-27 15:45:00", "s'échapper île")
-        testExtract_gcf("décale donc ça à 3h48min cet après-midi",
+        testExtract_gcf("Annou bwè on dènyé vè à 10 è mwen 12 lè swa",
+                       "2017-06-27 21:48:00", "Annou bwè dènyé vè")
+        testExtract_gcf("kité lil-là à 15h45",
+                       "2017-06-27 15:45:00", "kité lil")
+        testExtract_gcf("kité lil-là à 3h45min dè lapré-midi")
+                       "2017-06-27 15:45:00", "kité lil")
+        testExtract_gcf("Dékalé saà 3h48min cet après-midi",
                        "2017-06-27 15:48:00", "décale donc ça")
         testExtract_gcf("construire un bunker à 9h42min du matin",
                        "2017-06-27 09:42:00", "construire 1 bunker")
