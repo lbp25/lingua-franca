@@ -31,7 +31,7 @@ def tearDownModule():
     unload_language('gcf')
 
 
-NUMBERS_FIXTURE_FR = {
+NUMBERS_FIXTURE_GCF = {
     1.435634: '1,436',
     2: '2',
     5.0: '5',
@@ -64,15 +64,15 @@ NUMBERS_FIXTURE_FR = {
 }
 
 
-class TestNiceNumberFormat_fr(unittest.TestCase):
-    def test_convert_float_to_nice_number_fr(self):
-        for number, number_str in NUMBERS_FIXTURE_FR.items():
-            self.assertEqual(nice_number(number, lang="fr-fr"), number_str,
+class TestNiceNumberFormat_gcf(unittest.TestCase):
+    def test_convert_float_to_nice_number_gcf(self):
+        for number, number_str in NUMBERS_FIXTURE_GCF.items():
+            self.assertEqual(nice_number(number, lang="fr-gcf"), number_str,
                              'should format {} as {} and not {}'.format(
                                  number, number_str, nice_number(
                                      number, lang="fr-gcf")))
 
-    def test_specify_denominator_fr(self):
+    def test_specify_denominator_gcf(self):
         self.assertEqual(nice_number(5.5, lang="fr-gcf",
                                      denominators=[1, 2, 3]),
                          '5 et demi',
@@ -86,7 +86,7 @@ class TestNiceNumberFormat_fr(unittest.TestCase):
                              nice_number(2.333, lang="fr-gcf",
                                          denominators=[1, 2])))
 
-    def test_no_speech_fr(self):
+    def test_no_speech_gcf(self):
         self.assertEqual(nice_number(6.777, lang="fr-gcf", speech=False),
                          '6 7/9',
                          'should format 6.777 as 6 7/9 not {}'.format(
@@ -133,7 +133,7 @@ class TestPronounceNumber_gcf(unittest.TestCase):
                          "katrèven-disèt")
         self.assertEqual(pronounce_number(300, lang="fr-gcf"), "300")
 
-    def test_convert_negative_int_fr(self):
+    def test_convert_negative_int_gcf(self):
         self.assertEqual(pronounce_number(-1, lang="fr-gcf"), "mwen yonn")
         self.assertEqual(pronounce_number(-10, lang="fr-gcf"), "mwen dis")
         self.assertEqual(pronounce_number(-15, lang="fr-gcf"), "mwen kenz")
