@@ -24,7 +24,7 @@ from lingua_franca.lang.common_data_gcf import _ARTICLES_GCF, _NUMBERS_GCF, \
 
 def extract_duration_gcf(text):
     """
-    Convert an creole phrase into a number of seconds
+    Convert an guadeloupean creole phrase into a number of seconds
     Convert things like:
         "10 minit"
         "3 jou 8 è 10 minit é 49 sègond"
@@ -588,24 +588,24 @@ def extract_datetime_gcf(text, anchorDate=None, default_time=None):
                 yearOffset = int(wordPrev)
                 start -= 1
                 used = 2
-            elif wordNext in ["prochain", "prochaine", "suivant", "suivante"]:
+            elif wordNext in ["pwochen", "pwochenn", "suivan", "suivant", "ka  vin"]:
                 yearOffset = 1
                 used = 2
-            elif wordNext in ["dernier", "dernière", "précédent",
-                              "précédente"]:
+            elif wordNext in ["dènyé", "pasé", "présédan",
+                              "précédant"]:
                 yearOffset = -1
                 used = 2
-        # parse lundi, mardi etc., and lundi prochain, mardi dernier, etc.
+        # parse lendi, mawdi etc., and lendi ka vin, mawdi pasé, etc.
         elif word in days and not fromFlag:
             d = days.index(word)
             dayOffset = (d + 1) - int(today)
             used = 1
             if dayOffset < 0:
                 dayOffset += 7
-            if wordNext in ["prochain", "suivant"]:
+            if wordNext in ["pasé", "ka vin"]:
                 dayOffset += 7
                 used += 1
-            elif wordNext in ["dernier", "précédent"]:
+            elif wordNext in ["dènyé", "présédan"]:
                 dayOffset -= 7
                 used += 1
         # parse 15 juillet, 15 juil
@@ -628,40 +628,40 @@ def extract_datetime_gcf(text, anchorDate=None, default_time=None):
                 hasYear = True
             else:
                 hasYear = False
-        # parse 5 jours après demain, 10 semaines après jeudi prochain,
-        # 2 mois après juillet
+        # parse 5 jou aprè dèmen, 10 simenn apré jédi ka vin,
+        # 2 mwa apré juiyé
         validFollowups = days + months + monthsShort
-        validFollowups.append("aujourd'hui")
-        validFollowups.append("demain")
-        validFollowups.append("prochain")
-        validFollowups.append("prochaine")
+        validFollowups.append("jòdla")
+        validFollowups.append("dèmen")
+        validFollowups.append("pwochen")
+        validFollowups.append("pwochenn")
+        validFollowups.append("ka vin")
         validFollowups.append("suivant")
-        validFollowups.append("suivante")
-        validFollowups.append("dernier")
-        validFollowups.append("dernière")
-        validFollowups.append("précédent")
-        validFollowups.append("précédente")
-        validFollowups.append("maintenant")
-        if word in ["après", "depuis"] and wordNext in validFollowups:
+        validFollowups.append("dènyé")
+        validFollowups.append("pasé")
+        validFollowups.append("présédan")
+        validFollowups.append("présédant")
+        validFollowups.append("alè")
+        if word in ["apré", "dèpi"] and wordNext in validFollowups:
             used = 2
             fromFlag = True
-            if wordNext == "demain":
+            if wordNext == "dèmen":
                 dayOffset += 1
             elif wordNext in days:
                 d = days.index(wordNext)
                 tmpOffset = (d + 1) - int(today)
                 used = 2
-                if wordNextNext == "prochain":
+                if wordNextNext == "ka vin":
                     tmpOffset += 7
                     used += 1
-                elif wordNextNext == "dernier":
+                elif wordNextNext == "dènyé":
                     tmpOffset -= 7
                     used += 1
                 elif tmpOffset < 0:
                     tmpOffset += 7
                 dayOffset += tmpOffset
         if used > 0:
-            if start - 1 > 0 and words[start - 1] in ["ce", "cette"]:
+            if start - 1 > 0 and words[start - 1] in ["sa", "lasa"]:
                 start -= 1
                 used += 1
 
@@ -693,26 +693,26 @@ def extract_datetime_gcf(text, anchorDate=None, default_time=None):
         used = 0
         start = idx
 
-        # parse midi et quart, minuit et demi, midi 10, minuit moins 20
-        if word in ["midi", "minuit"]:
+        # parse midi é ka, minwi é dèmi, midi 10, minwi mwen 20
+        if word in ["midi", "minwi"]:
             isTime = True
             if word == "midi":
                 hrAbs = 12
                 used += 1
-            elif word == "minuit":
+            elif word == "minwi":
                 hrAbs = 0
                 used += 1
             if wordNext.isdigit():
                 minAbs = int(wordNext)
                 used += 1
-            elif wordNext == "et":
-                if wordNextNext == "quart":
+            elif wordNext == "é":
+                if wordNextNext == "kaw":
                     minAbs = 15
                     used += 2
-                elif wordNextNext == "demi":
+                elif wordNextNext == "dèmi":
                     minAbs = 30
                     used += 2
-            elif wordNext == "moins":
+            elif wordNext == "mwen":
                 if wordNextNext.isdigit():
                     minAbs = 60 - int(wordNextNext)
                     if not hrAbs:
@@ -720,37 +720,37 @@ def extract_datetime_gcf(text, anchorDate=None, default_time=None):
                     else:
                         hrAbs -= 1
                     used += 2
-                if wordNextNext == "quart":
+                if wordNextNext == "kaw":
                     minAbs = 45
                     if not hrAbs:
                         hrAbs = 23
                     else:
                         hrAbs -= 1
                     used += 2
-        # parse une demi-heure, un quart d'heure
-        elif word == "demi-heure" or word == "heure" and \
+        # parse on dèmi-è, on kaw dè
+        elif word == "dèmi-è" or word == "è" and \
                 (wordPrevPrev in markers or wordPrevPrevPrev in markers):
             used = 1
             isTime = True
-            if word == "demi-heure":
+            if word == "dèmi-è":
                 minOffset = 30
-            elif wordPrev == "quart":
+            elif wordPrev == "kaw":
                 minOffset = 15
                 used += 1
                 start -= 1
-            elif wordPrev == "quarts" and wordPrevPrev.isdigit():
+            elif wordPrev == "kaw" and wordPrevPrev.isdigit():
                 minOffset = int(wordPrevPrev) * 15
                 used += 1
                 start -= 1
             if wordPrev.isdigit() or wordPrevPrev.isdigit():
                 start -= 1
                 used += 1
-        # parse 5:00 du matin, 12:00, etc
-        elif word[0].isdigit() and _get_ordinal_fr(word) is None:
+        # parse 5:00 d-maten, 12:00, etc
+        elif word[0].isdigit() and _get_ordinal_gcf(word) is None:
             isTime = True
             if ":" in word or "h" in word or "min" in word:
                 # parse hours on short format
-                # "3:00 du matin", "4h14", "3h15min"
+                # "3:00 d-maten", "4h14", "3h15min"
                 strHH = ""
                 strMM = ""
                 stage = 0
@@ -793,16 +793,16 @@ def extract_datetime_gcf(text, anchorDate=None, default_time=None):
                             int(word) < 100 or
                             int(word) > 2400
                         )):
-                    # "dans 3 heures", "à 3 heures"
+                    # "adan 3 zè", "à 3 zè"
                     if wordPrev in words_in:
                         hrOffset = int(word)
                     else:
                         hrAbs = int(word)
                     used = 2
                     idxHr = idx + 2
-                    # "dans 1 heure 40", "à 1 heure 40"
+                    # "adan 1 è 40", "à 1 è 40"
                     if idxHr < len(words):
-                        # "3 heures 45"
+                        # "3 zè 45"
                         if words[idxHr].isdigit():
                             if wordPrev in words_in:
                                 minOffset = int(words[idxHr])
@@ -810,24 +810,24 @@ def extract_datetime_gcf(text, anchorDate=None, default_time=None):
                                 minAbs = int(words[idxHr])
                             used += 1
                             idxHr += 1
-                        # "3 heures et quart", "4 heures et demi"
-                        elif words[idxHr] == "et" and idxHr + 1 < len(words):
-                            if words[idxHr + 1] == "quart":
+                        # "3 zè é kaw", "4 è é dèmi"
+                        elif words[idxHr] == "é" and idxHr + 1 < len(words):
+                            if words[idxHr + 1] == "kaw":
                                 if wordPrev in words_in:
                                     minOffset = 15
                                 else:
                                     minAbs = 15
                                 used += 2
                                 idxHr += 2
-                            elif words[idxHr + 1] == "demi":
+                            elif words[idxHr + 1] == "dèmi":
                                 if wordPrev in words_in:
                                     minOffset = 30
                                 else:
                                     minAbs = 30
                                 used += 2
                                 idxHr += 2
-                        # "5 heures moins 20", "6 heures moins le quart"
-                        elif words[idxHr] == "moins" and \
+                        # "5 è mwen 20", "6 zè mwen-l-ka"
+                        elif words[idxHr] == "mwen" and \
                                 idxHr + 1 < len(words):
                             if words[idxHr + 1].isdigit():
                                 if wordPrev in words_in:
@@ -838,7 +838,7 @@ def extract_datetime_gcf(text, anchorDate=None, default_time=None):
                                     minAbs = 60 - int(words[idxHr + 1])
                                 used += 2
                                 idxHr += 2
-                            elif words[idxHr + 1] == "quart":
+                            elif words[idxHr + 1] == "kaw":
                                 if wordPrev in words_in:
                                     hrOffset -= 1
                                     minOffset = 45
@@ -849,18 +849,18 @@ def extract_datetime_gcf(text, anchorDate=None, default_time=None):
                                 idxHr += 2
                         # remove word minutes if present
                         if idxHr < len(words) and \
-                                words[idxHr] in ["minutes", "minute"]:
+                                words[idxHr] in ["minit"]:
                             used += 1
                             idxHr += 1
-                elif wordNext == "minutes":
-                    # "dans 10 minutes"
+                elif wordNext == "minit":
+                    # "dans 10 minit"
                     if wordPrev in words_in:
                         minOffset = int(word)
                     else:
                         minAbs = int(word)
                     used = 2
-                elif wordNext == "secondes":
-                    # "dans 5 secondes"
+                elif wordNext == "sègond":
+                    # "adan 5 sègond"
                     secOffset = int(word)
                     used = 2
                 elif int(word) > 100:
@@ -868,18 +868,18 @@ def extract_datetime_gcf(text, anchorDate=None, default_time=None):
                     hrAbs = int(word) / 100
                     minAbs = int(word) - hrAbs * 100
                     used = 1
-                    if wordNext == "heures":
+                    if wordNext == "è":
                         used += 1
 
             # handle am/pm
             if timeQualifier:
-                if timeQualifier == "matin":
+                if timeQualifier == "maten":
                     ampm = "am"
-                elif timeQualifier == "après-midi":
+                elif timeQualifier == "apré-midi":
                     ampm = "pm"
-                elif timeQualifier == "soir":
+                elif timeQualifier == "swa":
                     ampm = "pm"
-                elif timeQualifier == "nuit":
+                elif timeQualifier == "lannuit":
                     if (hrAbs or 0) > 8:
                         ampm = "pm"
                     else:
@@ -897,13 +897,13 @@ def extract_datetime_gcf(text, anchorDate=None, default_time=None):
                 isTime = True
 
         elif not hrAbs and timeQualifier:
-            if timeQualifier == "matin":
+            if timeQualifier == "maten":
                 hrAbs = 8
-            elif timeQualifier == "après-midi":
+            elif timeQualifier == "apré-midi":
                 hrAbs = 15
-            elif timeQualifier == "soir":
+            elif timeQualifier == "swa":
                 hrAbs = 19
-            elif timeQualifier == "nuit":
+            elif timeQualifier == "lannuit":
                 hrAbs = 2
             isTime = True
 
@@ -986,7 +986,7 @@ def extract_datetime_gcf(text, anchorDate=None, default_time=None):
     return [extractedDate, resultStr]
 
 
-def is_fractional_fr(input_str, short_scale=True):
+def is_fractional_gcf(input_str, short_scale=True):
     """
     This function takes the given text and checks if it is a fraction.
     Args:
@@ -997,37 +997,34 @@ def is_fractional_fr(input_str, short_scale=True):
     """
     input_str = input_str.lower()
 
-    if input_str != "tiers" and input_str.endswith('s', -1):
-        input_str = input_str[:len(input_str) - 1]  # e.g. "quarts"
-
-    aFrac = ["entier", "demi", "tiers", "quart", "cinquième", "sixième",
-             "septième", "huitième", "neuvième", "dixième", "onzième",
-             "douzième", "treizième", "quatorzième", "quinzième", "seizième",
-             "dix-septième", "dix-huitième", "dix-neuvième", "vingtième"]
+    aFrac = ["antyé", "dèmi", "tièw", "ka", "senkyèm", "sizyèm",
+             "sètyèm", "huitièm", "névièm", "dizyèm", "onzyèm",
+             "douzyèm", "trézyèm", "katozyèm", "kenzyèm", "sézyèm",
+             "disétyèm", "dizuityèm", "diznévyèm", "ventyèm"]
 
     if input_str in aFrac:
         return 1.0 / (aFrac.index(input_str) + 1)
-    if _get_ordinal_fr(input_str):
-        return 1.0 / _get_ordinal_fr(input_str)
-    if input_str == "trentième":
+    if _get_ordinal_gcf(input_str):
+        return 1.0 / _get_ordinal_gcf(input_str)
+    if input_str == "trantyèm":
         return 1.0 / 30
-    if input_str == "centième":
+    if input_str == "santyèm":
         return 1.0 / 100
-    if input_str == "millième":
+    if input_str == "milyèm":
         return 1.0 / 1000
 
     return False
 
 
-def normalize_fr(text, remove_articles=True):
-    """ French string normalization """
+def normalize_gcf(text, remove_articles=True):
+    """ Guadeloupean Creole string normalization """
     text = text.lower()
     words = text.split()  # this also removed extra spaces
     normalized = ""
     i = 0
     while i < len(words):
         # remove articles
-        if remove_articles and words[i] in _ARTICLES_FR:
+        if remove_articles and words[i] in _ARTICLES_GCF:
             i += 1
             continue
         if remove_articles and words[i][:2] in ["l'", "d'"]:
@@ -1037,14 +1034,14 @@ def normalize_fr(text, remove_articles=True):
             i += 1
             continue
         # Normalize ordinal numbers
-        if i > 0 and words[i - 1] in _ARTICLES_FR:
-            result = _number_ordinal_fr(words, i)
+        if i > 0 and words[i - 1] in _ARTICLES_GCF:
+            result = _number_ordinal_gcf(words, i)
             if result is not None:
                 val, i = result
                 normalized += " " + str(val)
                 continue
         # Convert numbers into digits
-        result = _number_parse_fr(words, i)
+        result = _number_parse_gcf(words, i)
         if result is not None:
             val, i = result
             normalized += " " + str(val)
@@ -1056,7 +1053,7 @@ def normalize_fr(text, remove_articles=True):
     return normalized[1:]  # strip the initial space
 
 
-def extract_numbers_fr(text, short_scale=True, ordinals=False):
+def extract_numbers_gcf(text, short_scale=True, ordinals=False):
     """
         Takes in a string and extracts a list of numbers.
     Args:
@@ -1069,9 +1066,9 @@ def extract_numbers_fr(text, short_scale=True, ordinals=False):
     Returns:
         list: list of extracted numbers as floats
     """
-    return extract_numbers_generic(text, pronounce_number_fr, extract_number_fr,
+    return extract_numbers_generic(text, pronounce_number_gcf, extract_number_gcf,
                                    short_scale=short_scale, ordinals=ordinals)
 
 
-class FrenchNormalizer(Normalizer):
+class GuadeloupeanCreoleNormalizer(Normalizer):
     """ TODO implement language specific normalizer"""
