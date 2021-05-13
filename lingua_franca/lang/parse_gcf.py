@@ -18,16 +18,16 @@ from datetime import datetime, timedelta
 from dateutil.relativedelta import relativedelta
 from lingua_franca.lang.parse_common import is_numeric, look_for_fractions, \
     extract_numbers_generic, Normalizer
-from lingua_franca.lang.format_fr import pronounce_number_fr
-from lingua_franca.lang.common_data_fr import _ARTICLES_FR, _NUMBERS_FR, \
-    _ORDINAL_ENDINGS_FR
+from lingua_franca.lang.format_gcf import pronounce_number_gcf
+from lingua_franca.lang.common_data_gcf import _ARTICLES_GCF, _NUMBERS_GCF, \
+    _ORDINAL_ENDINGS_GCF
 
-def extract_duration_fr(text):
+def extract_duration_gcf(text):
     """
-    Convert an french phrase into a number of seconds
+    Convert an creole phrase into a number of seconds
     Convert things like:
-        "10 minutes"
-        "3 jours 8 heures 10 minutes und 49 secondes"
+        "10 minit"
+        "3 jou 8 è 10 minit é 49 sègond"
     into an int, representing the total number of seconds.
     The words used in the duration will be consumed, and
     the remainder returned.
@@ -45,22 +45,22 @@ def extract_duration_fr(text):
     if not text:
         return None
 
-    text = normalize_fr(text)
+    text = normalize_gcf(text)
 
     time_units = {
-        'microseconds': 'microsecondes',
-        'milliseconds': 'millisecondes',
-        'seconds': 'secondes',
-        'minutes': 'minutes',
-        'hours': 'heures',
-        'days': 'jours',
-        'weeks': 'semaines'
+        'microseconds': 'microsègond',
+        'milliseconds': 'millisègond',
+        'seconds': 'sègond',
+        'minutes': 'minit',
+        'hours': 'è',
+        'days': 'jou',
+        'weeks': 'simenn'
     }
 
     pattern = r"(?P<value>\d+(?:\.?\d+)?)(?:\s+|\-){unit}[s]?(\s+|,|$)"
 
-    for (unit_en, unit_fr) in time_units.items():
-        unit_pattern = pattern.format(unit=unit_fr[:-1])  # remove 's' from unit
+    for (unit_en, unit_gcf) in time_units.items():
+        unit_pattern = pattern.format(unit=unit_gcf[:-1])  # remove 's' from unit
         time_units[unit_en] = 0
 
         def repl(match):
@@ -73,7 +73,7 @@ def extract_duration_fr(text):
 
     return (duration, text)
 
-def _number_parse_fr(words, i):
+def _number_parse_gcf(words, i):
     """ Parses a list of words to find a number
     Takes in a list of words (strings without whitespace) and
     extracts a number that starts at the given index.
@@ -85,7 +85,7 @@ def _number_parse_fr(words, i):
         Returns None if no number was found.
     """
 
-    def cte_fr(i, s):
+    def cte_gcf(i, s):
         # Check if string s is equal to words[i].
         # If it is return tuple with s, index of next word.
         # If it is not return None.
@@ -93,12 +93,12 @@ def _number_parse_fr(words, i):
             return s, i + 1
         return None
 
-    def number_word_fr(i, mi, ma):
-        # Check if words[i] is a number in _NUMBERS_FR between mi and ma.
+    def number_word_gcf(i, mi, ma):
+        # Check if words[i] is a number in _NUMBERS_GCF between mi and ma.
         # If it is return tuple with number, index of next word.
         # If it is not return None.
         if i < len(words):
-            val = _NUMBERS_FR.get(words[i])
+            val = _NUMBERS_GCF.get(words[i])
             # Numbers [1-16,20,30,40,50,60,70,80,90,100,1000]
             if val is not None:
                 if val >= mi and val <= ma:
@@ -108,7 +108,7 @@ def _number_parse_fr(words, i):
             # The number may be hyphenated (numbers [17-999])
             splitWord = words[i].split('-')
             if len(splitWord) > 1:
-                val1 = _NUMBERS_FR.get(splitWord[0])
+                val1 = _NUMBERS_GCF.get(splitWord[0])
                 if val1:
                     i1 = 0
                     val2 = 0
@@ -117,9 +117,9 @@ def _number_parse_fr(words, i):
                         val1 = val1 * 100
                         i1 = 2
 
-                    # For [81-99], e.g. "quatre-vingt-deux"
-                    if len(splitWord) > i1 and splitWord[0] == "quatre" and \
-                            splitWord[1] == "vingt":
+                    # For [81-99], e.g. "katrèven-dé"
+                    if len(splitWord) > i1 and splitWord[0] == "katrè" and \
+                            splitWord[1] == "ven":
                         val1 = 80
                         i1 += 2
 
@@ -129,23 +129,23 @@ def _number_parse_fr(words, i):
 
                     if len(splitWord) > i1:
                         # For [21,31,41,51,61,71]
-                        if len(splitWord) > i1 + 1 and splitWord[i1] == "et":
-                            val2 = _NUMBERS_FR.get(splitWord[i1 + 1])
+                        if len(splitWord) > i1 + 1 and splitWord[i1] == "é":
+                            val2 = _NUMBERS_GCF.get(splitWord[i1 + 1])
                             if val2 is not None:
                                 i1 += 2
-                        # For [77-79],[97-99] e.g. "soixante-dix-sept"
-                        elif splitWord[i1] == "dix" and \
+                        # For [77-79],[97-99] e.g. "swasann-disèt"
+                        elif splitWord[i1] == "dis" and \
                                 len(splitWord) > i1 + 1:
-                            val2 = _NUMBERS_FR.get(splitWord[i1 + 1])
+                            val2 = _NUMBERS_GCF.get(splitWord[i1 + 1])
                             if val2 is not None:
                                 val2 += 10
                                 i1 += 2
                         else:
-                            val2 = _NUMBERS_FR.get(splitWord[i1])
+                            val2 = _NUMBERS_GCF.get(splitWord[i1])
                             if val2 is not None:
                                 i1 += 1
                                 if len(splitWord) > i1:
-                                    val3 = _NUMBERS_FR.get(splitWord[i1])
+                                    val3 = _NUMBERS_GCF.get(splitWord[i1])
                                     if val3 is not None:
                                         i1 += 1
 
@@ -161,25 +161,25 @@ def _number_parse_fr(words, i):
 
         return None
 
-    def number_1_99_fr(i):
+    def number_1_99_gcf(i):
         # Check if words[i] is a number between 1 and 99.
         # If it is return tuple with number, index of next word.
         # If it is not return None.
 
         # Is it a number between 1 and 16?
-        result1 = number_word_fr(i, 1, 16)
+        result1 = number_word_gcf(i, 1, 16)
         if result1:
             return result1
 
         # Is it a number between 10 and 99?
-        result1 = number_word_fr(i, 10, 99)
+        result1 = number_word_gcf(i, 10, 99)
         if result1:
             val1, i1 = result1
-            result2 = cte_fr(i1, "et")
+            result2 = cte_gcf(i1, "et")
             # If the number is not hyphenated [21,31,41,51,61,71]
             if result2:
                 i2 = result2[1]
-                result3 = number_word_fr(i2, 1, 11)
+                result3 = number_word_gcf(i2, 1, 11)
                 if result3:
                     val3, i3 = result3
                     return val1 + val3, i3
@@ -188,27 +188,27 @@ def _number_parse_fr(words, i):
         # It is not a number
         return None
 
-    def number_1_999_fr(i):
+    def number_1_999_gcf(i):
         # Check if words[i] is a number between 1 and 999.
         # If it is return tuple with number, index of next word.
         # If it is not return None.
 
         # Is it 100 ?
-        result = number_word_fr(i, 100, 100)
+        result = number_word_gcf(i, 100, 100)
 
         # Is it [200,300,400,500,600,700,800,900]?
         if not result:
-            resultH1 = number_word_fr(i, 2, 9)
+            resultH1 = number_word_gcf(i, 2, 9)
             if resultH1:
                 valH1, iH1 = resultH1
-                resultH2 = number_word_fr(iH1, 100, 100)
+                resultH2 = number_word_gcf(iH1, 100, 100)
                 if resultH2:
                     iH2 = resultH2[1]
                     result = valH1 * 100, iH2
 
         if result:
             val1, i1 = result
-            result2 = number_1_99_fr(i1)
+            result2 = number_1_99_gcf(i1)
             if result2:
                 val2, i2 = result2
                 return val1 + val2, i2
@@ -216,18 +216,18 @@ def _number_parse_fr(words, i):
                 return result
 
         # Is it hyphenated? [101-999]
-        result = number_word_fr(i, 101, 999)
+        result = number_word_gcf(i, 101, 999)
         if result:
             return result
 
         # [1-99]
-        result = number_1_99_fr(i)
+        result = number_1_99_gcf(i)
         if result:
             return result
 
         return None
 
-    def number_1_999999_fr(i):
+    def number_1_999999_gcf(i):
         """ Find a number in a list of words
         Checks if words[i] is a number between 1 and 999,999.
         Args:
@@ -238,24 +238,24 @@ def _number_parse_fr(words, i):
         """
 
         # check for zero
-        result1 = number_word_fr(i, 0, 0)
+        result1 = number_word_gcf(i, 0, 0)
         if result1:
             return result1
 
         # check for [1-999]
-        result1 = number_1_999_fr(i)
+        result1 = number_1_999_gcf(i)
         if result1:
             val1, i1 = result1
         else:
             val1 = 1
             i1 = i
         # check for 1000
-        result2 = number_word_fr(i1, 1000, 1000)
+        result2 = number_word_gcf(i1, 1000, 1000)
         if result2:
             # it's [1000-999000]
             i2 = result2[1]
             # check again for [1-999]
-            result3 = number_1_999_fr(i2)
+            result3 = number_1_999_gcf(i2)
             if result3:
                 val3, i3 = result3
                 return val1 * 1000 + val3, i3
@@ -265,10 +265,10 @@ def _number_parse_fr(words, i):
             return result1
         return None
 
-    return number_1_999999_fr(i)
+    return number_1_999999_gcf(i)
 
 
-def _get_ordinal_fr(word):
+def _get_ordinal_gcf(word):
     """ Get the ordinal number
     Takes in a word (string without whitespace) and
     extracts the ordinal number.
@@ -279,7 +279,7 @@ def _get_ordinal_fr(word):
         Returns None if no ordinal number was found.
     """
     if word:
-        for ordinal in _ORDINAL_ENDINGS_FR:
+        for ordinal in _ORDINAL_ENDINGS_GCF:
             if word[0].isdigit() and ordinal in word:
                 result = word.replace(ordinal, "")
                 if result.isdigit():
@@ -288,7 +288,7 @@ def _get_ordinal_fr(word):
     return None
 
 
-def _number_ordinal_fr(words, i):
+def _number_ordinal_gcf(words, i):
     """ Find an ordinal number in a list of words
     Takes in a list of words (strings without whitespace) and
     extracts an ordinal number that starts at the given index.
@@ -312,7 +312,7 @@ def _number_ordinal_fr(words, i):
         return strOrd, i + 1
 
     # if it's a big number the beginning should be detected as a number
-    result = _number_parse_fr(words, i)
+    result = _number_parse_gcf(words, i)
     if result:
         val1, i = result
     else:
@@ -320,37 +320,37 @@ def _number_ordinal_fr(words, i):
 
     if i < len(words):
         word = words[i]
-        if word in ["premier", "première"]:
+        if word in ["prèmyé", "prèmyèw"]:
             strOrd = "1er"
-        elif word == "second":
+        elif word == "sègon":
             strOrd = "2e"
-        elif word.endswith("ième"):
+        elif word.endswith("yèm"):
             val2 = None
             word = word[:-4]
-            # centième
-            if word == "cent":
+            # santyèm
+            if word == "san":
                 if val1:
                     strOrd = str(val1 * 100) + "e"
                 else:
                     strOrd = "100e"
-            # millième
-            elif word == "mill":
+            # milyèm
+            elif word == "mil":
                 if val1:
                     strOrd = str(val1 * 1000) + "e"
                 else:
                     strOrd = "1000e"
             else:
-                # "cinquième", "trente-cinquième"
+                # "senkyèm", "trann-senkyèm"
                 if word.endswith("cinqu"):
                     word = word[:-1]
-                # "neuvième", "dix-neuvième"
-                elif word.endswith("neuv"):
+                # "névyèm", "dis-névyèm"
+                elif word.endswith("név"):
                     word = word[:-1] + "f"
-                result = _number_parse_fr([word], 0)
+                result = _number_parse_gcf([word], 0)
                 if not result:
-                    # "trentième", "douzième"
+                    # "trantyèm", "douzyèm"
                     word = word + "e"
-                    result = _number_parse_fr([word], 0)
+                    result = _number_parse_gcf([word], 0)
                 if result:
                     val2, i = result
                 if val2 is not None:
@@ -361,7 +361,7 @@ def _number_ordinal_fr(words, i):
     return None
 
 
-def extract_number_fr(text, short_scale=True, ordinals=False):
+def extract_number_gcf(text, short_scale=True, ordinals=False):
     """Takes in a string and extracts a number.
     Args:
         text (str): the string to extract a number from
@@ -372,7 +372,7 @@ def extract_number_fr(text, short_scale=True, ordinals=False):
     # The parameters are present in the function signature for API compatibility
     # reasons.
     # normalize text, keep articles for ordinals versus fractionals
-    text = normalize_fr(text, False)
+    text = normalize_gcf(text, False)
     # split words by whitespace
     aWords = text.split()
     count = 0
@@ -388,10 +388,10 @@ def extract_number_fr(text, short_scale=True, ordinals=False):
         if count > 0:
             wordPrev = aWords[count - 1]
 
-        if word in _ARTICLES_FR:
+        if word in _ARTICLES_GCF:
             count += 1
             continue
-        if word in ["et", "plus", "+"]:
+        if word in ["é", "plis", "+"]:
             count += 1
             add = True
             continue
@@ -403,17 +403,17 @@ def extract_number_fr(text, short_scale=True, ordinals=False):
         elif is_numeric(word):
             val = float(word)
             count += 1
-        elif wordPrev in _ARTICLES_FR and _get_ordinal_fr(word):
-            val = _get_ordinal_fr(word)
+        elif wordPrev in _ARTICLES_GCF and _get_ordinal_gcf(word):
+            val = _get_ordinal_gcf(word)
             count += 1
         # is current word the denominator of a fraction?
-        elif is_fractional_fr(word):
-            val = is_fractional_fr(word)
+        elif is_fractional_gcf(word):
+            val = is_fractional_gcf(word)
             count += 1
 
         # is current word the numerator of a fraction?
         if val and wordNext:
-            valNext = is_fractional_fr(wordNext)
+            valNext = is_fractional_gcf(wordNext)
             if valNext:
                 val = float(val) * valNext
                 count += 1
@@ -428,7 +428,7 @@ def extract_number_fr(text, short_scale=True, ordinals=False):
                 val = float(aPieces[0]) / float(aPieces[1])
 
         # is current word followed by a decimal value?
-        if wordNext == "virgule":
+        if wordNext == "virgil":
             zeros = 0
             newWords = aWords[count + 1:]
             # count the number of zeros after the decimal sign
@@ -461,13 +461,13 @@ def extract_number_fr(text, short_scale=True, ordinals=False):
     return result or False
 
 
-def extract_datetime_fr(text, anchorDate=None, default_time=None):
+def extract_datetime_gcf(text, anchorDate=None, default_time=None):
     def clean_string(s):
         """
             cleans the input string of unneeded punctuation and capitalization
             among other things.
         """
-        s = normalize_fr(s, True)
+        s = normalize_gcf(s, True)
         wordList = s.split()
         for idx, word in enumerate(wordList):
             # remove comma and dot if it's not a number
@@ -502,16 +502,16 @@ def extract_datetime_fr(text, anchorDate=None, default_time=None):
     hasYear = False
     timeQualifier = ""
 
-    timeQualifiersList = ["matin", "après-midi", "soir", "nuit"]
-    words_in = ["dans", "après"]
-    markers = ["à", "dès", "autour", "vers", "environs", "ce",
-               "cette"] + words_in
-    days = ["lundi", "mardi", "mercredi",
-            "jeudi", "vendredi", "samedi", "dimanche"]
-    months = ["janvier", "février", "mars", "avril", "mai", "juin",
-              "juillet", "août", "septembre", "octobre", "novembre",
-              "décembre"]
-    monthsShort = ["jan", "fév", "mar", "avr", "mai", "juin", "juil", "aoû",
+    timeQualifiersList = ["maten", "apré-midi", "swa", "lannuit"]
+    words_in = ["adan", "apré"]
+    markers = ["à", "dèpi", "koté", "sa",
+               "lasa"] + words_in
+    days = ["lendi", "mawdi", "mewkrèdi",
+            "jédi", "vandrèdi", "sanmdi", "dimanch"]
+    months = ["janvyé", "févwyé", "maws", "avril", "mé", "juin",
+              "juiyé", "out", "sèptanb", "oktòb", "novanm",
+              "désanm"]
+    monthsShort = ["jan", "fév", "mar", "avr", "mé", "juin", "juil", "out",
                    "sept", "oct", "nov", "déc"]
     # needed for format functions
     months_en = ['january', 'february', 'march', 'april', 'may', 'june',
@@ -535,55 +535,55 @@ def extract_datetime_fr(text, anchorDate=None, default_time=None):
         if word in timeQualifiersList:
             timeQualifier = word
             used = 1
-            if wordPrev in ["ce", "cet", "cette"]:
+            if wordPrev in ["sa", "lasa"]:
                 used = 2
                 start -= 1
-        # parse aujourd'hui, demain, après-demain
-        elif word == "aujourd'hui" and not fromFlag:
+        # parse jòdla, dèmen, apré-dèmen
+        elif word == "jòdla" and not fromFlag:
             dayOffset = 0
             used += 1
-        elif word == "demain" and not fromFlag:
+        elif word == "dèmen" and not fromFlag:
             dayOffset = 1
             used += 1
-        elif word == "après-demain" and not fromFlag:
+        elif word == "apré-dèmen" and not fromFlag:
             dayOffset = 2
             used += 1
-        # parse 5 jours, 10 semaines, semaine dernière, semaine prochaine
-        elif word in ["jour", "jours"]:
+        # parse 5 jou, 10 simenn, simenn pasé, simen ka vin
+        elif word in ["jou"]:
             if wordPrev.isdigit():
                 dayOffset += int(wordPrev)
                 start -= 1
                 used = 2
-            # "3e jour"
-            elif _get_ordinal_fr(wordPrev) is not None:
-                dayOffset += _get_ordinal_fr(wordPrev) - 1
+            # "3e jou"
+            elif _get_ordinal_gcf(wordPrev) is not None:
+                dayOffset += _get_ordinal_gcf(wordPrev) - 1
                 start -= 1
                 used = 2
-        elif word in ["semaine", "semaines"] and not fromFlag:
+        elif word in ["simenn" ] and not fromFlag:
             if wordPrev[0].isdigit():
                 dayOffset += int(wordPrev) * 7
                 start -= 1
                 used = 2
-            elif wordNext in ["prochaine", "suivante"]:
+            elif wordNext in ["ka vin", "pwochen", "suivan"]:
                 dayOffset = 7
                 used = 2
-            elif wordNext in ["dernière", "précédente"]:
+            elif wordNext in ["dènyé", "pasé", "présédan"]:
                 dayOffset = -7
                 used = 2
-        # parse 10 mois, mois prochain, mois dernier
-        elif word == "mois" and not fromFlag:
+        # parse 10 mwa, mwa pwochen, mwa pasé
+        elif word == "mwa" and not fromFlag:
             if wordPrev[0].isdigit():
                 monthOffset = int(wordPrev)
                 start -= 1
                 used = 2
-            elif wordNext in ["prochain", "suivant"]:
+            elif wordNext in ["ka vin", "suivan", "pwochen"]:
                 monthOffset = 1
                 used = 2
-            elif wordNext in ["dernier", "précédent"]:
+            elif wordNext in ["dènyé", "présédan"]:
                 monthOffset = -1
                 used = 2
-        # parse 5 ans, an prochain, année dernière
-        elif word in ["an", "ans", "année", "années"] and not fromFlag:
+        # parse 5 lanné, lanné ka vin, lanné pasé
+        elif word in ["lanné"] and not fromFlag:
             if wordPrev[0].isdigit():
                 yearOffset = int(wordPrev)
                 start -= 1
