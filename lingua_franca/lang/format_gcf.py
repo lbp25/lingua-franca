@@ -61,26 +61,22 @@ def nice_number_gcf(number, speech=True, denominators=range(1, 21)):
         if whole == 0:
             # if there is no whole number
             if num == 1:
-                # if numerator is 1, return "un demi", for example
+                # if numerator is 1, return "on dèmi", for example
                 strNumber = 'un {}'.format(den_str)
             else:
-                # else return "quatre tiers", for example
+                # else return "kat-tyèw", for example
                 strNumber = '{} {}'.format(num, den_str)
         elif num == 1:
             # if there is a whole number and numerator is 1
             if den == 2:
-                # if denominator is 2, return "1 et demi", for example
+                # if denominator is 2, return "1 é dèmi", for example
                 strNumber = '{} et {}'.format(whole, den_str)
             else:
-                # else return "1 et 1 tiers", for example
+                # else return "1 é 1 tièw", for example
                 strNumber = '{} et 1 {}'.format(whole, den_str)
         else:
-            # else return "2 et 3 quart", for example
+            # else return "2 é 3 kaw", for example
             strNumber = '{} et {} {}'.format(whole, num, den_str)
-        if num > 1 and den != 3:
-            # if the numerator is greater than 1 and the denominator
-            # is not 3 ("tiers"), add an s for plural
-            strNumber += 's'
 
     return strNumber
 
@@ -88,7 +84,7 @@ def nice_number_gcf(number, speech=True, denominators=range(1, 21)):
 def pronounce_number_gcf(number, places=2):
     """
     Convert a number to it's spoken equivalent
-    For example, '5.2' would return 'cinq virgule deux'
+    For example, '5.2' would return 'senk virgil dé'
     Args:
         num(float or int): the number to pronounce (under 100)
         places(int): maximum decimal places to speak
@@ -113,30 +109,30 @@ def pronounce_number_gcf(number, places=2):
             elif number == 71:
                 result += "swasant-é-yonz"
             elif tens == 70:
-                result += _NUM_STRING_FR[60] + "-"
+                result += _NUM_STRING_GCF[60] + "-"
                 if ones < 7:
-                    result += _NUM_STRING_FR[10 + ones]
+                    result += _NUM_STRING_GCF[10 + ones]
                 else:
-                    result += _NUM_STRING_FR[10] + "-" + _NUM_STRING_FR[ones]
+                    result += _NUM_STRING_GCF[10] + "-" + _NUM_STRING_GCF[ones]
             elif tens == 90:
-                result += _NUM_STRING_FR[80] + "-"
+                result += _NUM_STRING_GCF[80] + "-"
                 if ones < 7:
-                    result += _NUM_STRING_FR[10 + ones]
+                    result += _NUM_STRING_GCF[10 + ones]
                 else:
-                    result += _NUM_STRING_FR[10] + "-" + _NUM_STRING_FR[ones]
+                    result += _NUM_STRING_GCF[10] + "-" + _NUM_STRING_GCF[ones]
             else:
-                result += _NUM_STRING_FR[tens] + "-" + _NUM_STRING_FR[ones]
+                result += _NUM_STRING_GCF[tens] + "-" + _NUM_STRING_GCF[ones]
         else:
             if number == 80:
                 result += "katrèven"
             else:
-                result += _NUM_STRING_FR[tens]
+                result += _NUM_STRING_GCF[tens]
     else:
-        result += _NUM_STRING_FR[int(number)]
+        result += _NUM_STRING_GCF[int(number)]
 
     # Deal with decimal part
     if not number == int(number) and places > 0:
-        if abs(number) < 1.0 and (result == "wen " or not result):
+        if abs(number) < 1.0 and (result == "mwen " or not result):
             result += "zéro"
         result += " virgil"
         _num_str = str(number)
@@ -238,7 +234,7 @@ def nice_time_gcf(dt, speech=True, use_24hour=False, use_ampm=False):
             if hour > 17:
                 speak += " d-swa"
             elif hour > 12:
-                speak += " dè l'aprè-midi"
+                speak += " dè lapré-midi"
             elif hour > 0 and hour < 12:
                 speak += " d-maten"
 
